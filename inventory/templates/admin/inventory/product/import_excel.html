@@ -1,0 +1,78 @@
+{% extends "admin/base_site.html" %} {% block content %}
+
+<h1>Import Products from Excel</h1>
+
+<p>Upload your inventory Excel file.</p>
+
+<p>
+  Existing products with the same barcode will be updated. New barcodes will be
+  created.
+</p>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div style="margin-bottom: 20px">
+    <label for="branch" style="font-weight: bold"> Branch </label>
+
+    <br />
+
+    <select
+      name="branch"
+      id="branch"
+      required
+      style="margin-top: 8px; min-width: 300px; padding: 8px"
+    >
+      <option value="">Select Branch</option>
+
+      {% for branch in branches %}
+      <option value="{{ branch.id }}">{{ branch.branch_name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div style="margin-bottom: 20px">
+    <label for="excel_file" style="font-weight: bold"> Excel File </label>
+
+    <br />
+
+    <input
+      type="file"
+      name="excel_file"
+      id="excel_file"
+      accept=".xlsx"
+      required
+      style="margin-top: 8px"
+    />
+  </div>
+
+  <div style="margin-bottom: 20px">
+    <strong> Required Excel columns: </strong>
+
+    <ul>
+      <li>BarCode</li>
+      <li>Short Description</li>
+      <li>Location</li>
+      <li>Cost Price</li>
+      <li>Selling Price</li>
+      <li>Stk On Hand</li>
+      <li>Physical Qty</li>
+    </ul>
+
+    <p>Variance is automatically calculated:</p>
+
+    <code> Variance = Physical Qty - Stk On Hand </code>
+  </div>
+
+  <button type="submit" class="default">Upload Excel</button>
+
+  <a
+    href="{% url 'admin:inventory_product_changelist' %}"
+    class="button"
+    style="margin-left: 10px"
+  >
+    Cancel
+  </a>
+</form>
+
+{% endblock %}
