@@ -1,19 +1,23 @@
 from pathlib import Path
-
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = (
-    "django-insecure-e0h7o1g&1h%$mh9yzy&sw%n7"
-    "cdmv13igk)79n7cyo#j5h&k=a9vc"
-)
-
-DEBUG = True
+# SECRET_KEY = (
+#     "django-insecure-e0h7o1g&1h%$mh9yzy&sw%n7"
+#     "cdmv13igk)79n7cyo#j5h&k=a9vc"
+# )
+SECRET_KEY = os.getenv("SECRET_KEY")
+# DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
+    ".onrender.com",
+    "https://stock-management.vercel.app",
+    
 ]
 
 
